@@ -159,10 +159,7 @@ jobs:
           wget -nv https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-7.0.0.4796-linux-x64.zip
           wget -nv https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-7.0.0.4796-windows-x64.zip
           wget -nv https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-7.0.0.4796.zip
-      - name: Generate Artifact Hash File
-        run: |
-          cd ISO/binaries
-          sha256sum -b * | tee sonar-scanner-cli-6.1.0.4477.sha
+          sha256sum -b * | tee sonar-scanner-cli.sha
 
       - name: Copy Markdowns to ISO
         run: cp -v *.md ISO/
@@ -173,8 +170,8 @@ jobs:
       - name: Generate Artifact Hash File
         run: |
           cd ISO
-          sha256sum -b ${{ vars.COLLECTOR }}-${{ needs.Date.outputs.Date }}* | tee \
-            ISO/${{ vars.COLLECTOR }}-${{ needs.Date.outputs.Date }}.sha
+          sha256sum -b * | tee \
+            ${{ vars.COLLECTOR }}-${{ needs.Date.outputs.Date }}.sha
 
       - name: Upload Artifact Hash File
         uses: actions/upload-artifact@v4
